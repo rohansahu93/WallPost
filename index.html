@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="noteApp" >
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    
+<!--*********************stylesheet****************************-->
+  <link href = "app/css/bootstrap.min.css" rel = "stylesheet">
+  <link href = "app/css/default.css" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    
+</head>
+    
+<!------------ Main Header  --------------------->
+<body ng-controller="toDoNoteController">
+   <div class="mainheader">
+      <div class="container">
+          <div class="row">
+            <div class="topnav col-xs-12 col-sm-12 col-md-6 col-lg-6">
+           <a href="#">WallPost</a>
+            </div>
+         </div>
+    </div>
+</div>
+    
+<!------------ Post posting box --------------------->
+<div class="container">
+   <div class="row">
+      <div class="col-lg-12 listInput" id="toDoMain">
+        <div class="input-group input-group-lg inputBox" id="content">
+            <form ng-submit="addPost()">
+            <textarea class="form-control note_area" id="task" placeholder="write something..." aria-describedby="sizing-addon1" ng-keyup="autoExpand($event)" required ng-model="content" required maxlength="1500"></textarea>
+            </div>
+        <div id="add" class="addButton" >
+<input type="submit" class="btn" value="Post">
+           </div>
+        </form>
+      </div>
+   </div>
+</div>
+
+
+<!------------ All submitted post --------------------->
+<ul>
+  <li ng-repeat="post in posts">
+    <div class="post">
+        <div class="postContent">
+            {{post.content}}
+        </div>
+        <div class="feeds">
+            <a ng-click="likeUpdate(post)" style="cursor: pointer;">Likes</a>&nbsp;<label>{{post.likes}}</label>&nbsp;&nbsp;
+        <!-- click for toggling comment ---->
+          <a ng-click="openComment(post)" style="cursor: pointer;">Comments</a>&nbsp;<label>{{post.comments.length}}</label>
+        </div>
+        <!-- comment ox ---->
+        <div ng-if="post.commentIsOpen" class="comments">
+         <div class="postContent comment" ng-repeat="comment in post.comments">
+            {{comment}}
+               </div>
+            <form ng-submit="postComment(post)">
+                 <textarea class="form-control" id="task" placeholder="write your comment..." aria-describedby="sizing-addon1" required ng-model="post.latestComment" ></textarea>
+        <div id="add" class="addButton" ><input type="submit" class="btn" value="Post Comment">
+                    </div>
+               </form>
+           </div>
+      </div>
+   </li>
+</ul>
+    
+
+<!-----------------------Script started----------------------------->
+<script src="app/js/jquery-1.7.1.min.js"></script>
+<script src="app/js/angular.js"></script>
+<script src ="app/js/bootstrap.min.js"></script>
+<script src= "app/js/ngStorage.js"></script>
+<script src ="app/app.js"></script>
+<script src= "app/services/postService.js"></script>
+</body>
+    
+</html>
